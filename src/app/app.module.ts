@@ -10,10 +10,12 @@ import { MatTableModule } from "@angular/material/table";
 import { MatInputModule } from "@angular/material/input";
 import { FormsModule } from "@angular/forms";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatSelectModule } from "@angular/material/select";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { CustomDate } from "./helpers/pipes/date.pipe";
 
 @NgModule({
-  declarations: [AppComponent, UserCrudComponent],
+  declarations: [AppComponent, UserCrudComponent, CustomDate],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -23,7 +25,8 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatTableModule,
     MatInputModule,
     FormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

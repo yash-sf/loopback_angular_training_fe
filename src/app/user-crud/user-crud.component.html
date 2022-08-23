@@ -74,11 +74,17 @@
     </ng-container>
     <ng-container matColumnDef="role">
       <th mat-header-cell *matHeaderCellDef>Role</th>
-      <td mat-cell *matCellDef="let element">
-        <div *ngIf="!isEditMode[element.id]">{{ element.role }}</div>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div *ngIf="!isEditMode[element.id]">{{ userRoles[element.role] }}</div>
         <mat-form-field *ngIf="isEditMode[element.id]">
-          <mat-label>Edit role</mat-label>
-          <input matInput placeholder="Role" [(ngModel)]="element.role" />
+          <mat-select
+            [value]="userRoles[element.role]"
+            (selectionChange)="changeRole($event, i)"
+          >
+            <mat-option value="{{ userRoles[0] }}">SuperAdmin</mat-option>
+            <mat-option value="{{ userRoles[1] }}">Admin</mat-option>
+            <mat-option value="{{ userRoles[2] }}">Subscriber</mat-option>
+          </mat-select>
         </mat-form-field>
       </td>
     </ng-container>
@@ -95,13 +101,13 @@
     <ng-container matColumnDef="createdOn">
       <th mat-header-cell *matHeaderCellDef>createdOn</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.createdOn * 1000 | date }}
+        {{ element.createdOn * 1000 | customDate }}
       </td>
     </ng-container>
     <ng-container matColumnDef="modifiedOn">
       <th mat-header-cell *matHeaderCellDef>modifiedOn</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.modifiedOn * 1000 | date }}
+        {{ element.modifiedOn * 1000 | customDate }}
       </td>
     </ng-container>
     <ng-container matColumnDef="mutate">

@@ -5,7 +5,7 @@ export default interface User {
   lastName?: string;
   email: string;
   phone?: string;
-  role: string;
+  role: number;
   address?: string;
   createdOn: string;
   modifiedOn?: string;

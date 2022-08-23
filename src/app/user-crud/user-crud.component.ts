@@ -28,6 +28,17 @@ export class UserCrudComponent implements OnInit {
   ];
   isEditMode: any = {};
   oldUserData: any = {};
+  userRoles: any = {
+    0: "Super Admin",
+    1: "Admin",
+    2: "Subscriber",
+  };
+
+  userRolesInversed: any = {
+    "Super Admin": 0,
+    Admin: 1,
+    Subscriber: 2,
+  };
 
   constructor(
     private userService: UserService,
@@ -65,14 +76,23 @@ export class UserCrudComponent implements OnInit {
       return;
     }
     this.isEditMode[user.id] = false;
+    const indexOfUser = this.usersList.findIndex(
+      (_user) => _user.id === user.id
+    );
+    if (indexOfUser !== -1) {
+      this.usersList[indexOfUser] = user;
+    }
   }
 
   cancelEdit(id: number) {
-    console.log(this.oldUserData);
     this.isEditMode[id] = false;
     this.usersList = this.usersList.map((user) => {
       if (user.id === id) return { ...this.oldUserData[id] };
       return user;
     });
+  }
+
+  changeRole(event: any, index: number) {
+    this.usersList[index].role = this.userRolesInversed[event.value];
   }
 }
