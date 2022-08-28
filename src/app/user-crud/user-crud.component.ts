@@ -47,13 +47,8 @@ export class UserCrudComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onLoadData() {
-    this.usersList = [];
-    this.usersList = [...userList];
-    this.usersList = this.usersList.map((user) => {
-      this.isEditMode[user.id] = false;
-      return { ...user };
-    });
+  async onLoadData() {
+    this.usersList = await this.userService.getUserList();
     this.isDataLoaded = true;
   }
 
@@ -65,23 +60,20 @@ export class UserCrudComponent implements OnInit {
   }
 
   deleteUser(id: number) {
-    this.usersList = this.usersList.filter((user) => user.id !== id);
+    this.userService.deleteUser(id).then(() => {
+      this.onLoadData();
+    });
   }
 
   saveUser(user: User) {
-    if (!user.firstName || !user.email || !user.role) {
+    if (!user.firstName || !user.email || (!user.role && user.role && user.role === 0)) {
       this.matSnackBar.open("Name, Email and Role are required", "OK", {
         duration: 5000,
       });
       return;
     }
     this.isEditMode[user.id] = false;
-    const indexOfUser = this.usersList.findIndex(
-      (_user) => _user.id === user.id
-    );
-    if (indexOfUser !== -1) {
-      this.usersList[indexOfUser] = user;
-    }
+    this.userService.updateUser(user);
   }
 
   cancelEdit(id: number) {
