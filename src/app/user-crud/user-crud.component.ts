@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { UsersList } from "../helpers/constants";
 import User from "../helpers/user.interface";
 import { UserService } from "../user-service/user.service";
-import { userList } from "../helpers/constants";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
@@ -48,7 +47,7 @@ export class UserCrudComponent implements OnInit {
   ngOnInit(): void {}
 
   async onLoadData() {
-    this.usersList = await this.userService.getUserList();
+    this.usersList = await (await this.userService.findAll()).data;
     this.isDataLoaded = true;
   }
 
@@ -60,7 +59,7 @@ export class UserCrudComponent implements OnInit {
   }
 
   deleteUser(id: number) {
-    this.userService.deleteUser(id).then(() => {
+    this.userService.delete(id).then(() => {
       this.onLoadData();
     });
   }
@@ -73,7 +72,7 @@ export class UserCrudComponent implements OnInit {
       return;
     }
     this.isEditMode[user.id] = false;
-    this.userService.updateUser(user);
+    this.userService.update(user.id, user);
   }
 
   cancelEdit(id: number) {
