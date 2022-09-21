@@ -26,15 +26,15 @@ export class UserCrudComponent implements OnInit {
     "modifiedOn",
     "mutate",
   ];
-  isEditMode: any = {};
-  oldUserData: any = {};
-  userRoles: any = {
+  isEditMode: {[id: string]: boolean} = {};
+  oldUserData: {[id: string]: User} = {};
+  userRoles: {[id: number]: string} = {
     0: "Super Admin",
     1: "Admin",
     2: "Subscriber",
   };
 
-  userRolesInversed: any = {
+  userRolesInversed: {[id: string]: number} = {
     "Super Admin": 0,
     Admin: 1,
     Subscriber: 2,
@@ -92,7 +92,7 @@ export class UserCrudComponent implements OnInit {
     });
   }
 
-  changeRole(event: any, index: number) {
+  changeRole(event: {value: string}, index: number) {
     this.usersList[index].role = this.userRolesInversed[event.value];
   }
 }
