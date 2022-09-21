@@ -26,8 +26,8 @@ export class UserCrudComponent implements OnInit {
     "modifiedOn",
     "mutate",
   ];
-  isEditMode: any = {};
-  oldUserData: any = {};
+  isEditMode: {[id: string]: boolean} = {};
+  oldUserData: {[id: string]: User} = {};
 
   constructor(
     private userService: UserService,
