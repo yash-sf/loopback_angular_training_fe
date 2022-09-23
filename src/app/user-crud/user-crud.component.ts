@@ -1,9 +1,19 @@
 import { Component, OnInit } from "@angular/core";
-import { UsersList } from "../helpers/constants";
+import { UsersList, userList } from "../helpers/constants";
 import User from "../helpers/user.interface";
 import { UserService } from "../user-service/user.service";
-import { userList } from "../helpers/constants";
 import { MatSnackBar } from "@angular/material/snack-bar";
+
+function DateFormatter(target: any, key: string, descriptor: any) {
+  let originalObj = descriptor.value;
+  descriptor.value = function () {
+    originalObj?.apply(this);
+    this.usersList = this.usersList.map((element: any) => {
+      element.createdOn = new Date(parseInt(element.createdOn) * 1000).toLocaleString()
+      return element
+    });
+  };
+}
 
 @Component({
   selector: "app-user-crud",
@@ -34,8 +44,9 @@ export class UserCrudComponent implements OnInit {
     private matSnackBar: MatSnackBar
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void { /* TODO document why this method 'ngOnInit' is empty */ }
 
+  @DateFormatter
   onLoadData() {
     this.usersList = [];
     this.usersList = [...userList];
